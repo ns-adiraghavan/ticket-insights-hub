@@ -1,6 +1,6 @@
 {
   "data_month": "2026-05-01",
-  "generated_at": "2026-06-02T10:13:28.371408+00:00",
+  "generated_at": "2026-06-02T17:01:55.549670+00:00",
   "banner": {
     "peak_week": 19,
     "peak_week_tickets": 90,
@@ -196,18 +196,25 @@
   ],
   "platform": [
     {
-      "platform": "Luxury",
-      "tickets": 83,
-      "adhoc_skus": 17758,
-      "e2e_options": 1117,
-      "avg_tat": 5.72
+      "platform": "Mall",
+      "tickets": 190,
+      "adhoc_skus": 3438,
+      "e2e_options": 8047,
+      "avg_tat": 3.4
     },
     {
-      "platform": "Mall",
-      "tickets": 235,
-      "adhoc_skus": 20109,
-      "e2e_options": 8617,
-      "avg_tat": 4.52
+      "platform": "Mall;Luxury",
+      "tickets": 45,
+      "adhoc_skus": 16671,
+      "e2e_options": 570,
+      "avg_tat": 6.04
+    },
+    {
+      "platform": "Luxury",
+      "tickets": 38,
+      "adhoc_skus": 1087,
+      "e2e_options": 547,
+      "avg_tat": 4.17
     }
   ],
   "tat_insights": {
