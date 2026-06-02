@@ -5,6 +5,7 @@ export interface Column<T> {
   render: (row: T, idx: number) => ReactNode;
   align?: "left" | "right" | "center";
   width?: string | number;
+  title?: string;
 }
 
 interface Props<T> {
