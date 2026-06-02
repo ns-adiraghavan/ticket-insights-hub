@@ -66,7 +66,7 @@ export default function WowTab({ data }: { data: any }) {
     { header: "Tickets", align: "right", render: (w) => fmtNum(w.tickets) },
     { header: "Ad-hoc SKUs", align: "right", render: (w) => fmtNum(w.adhoc_skus) },
     { header: "E2E Options", align: "right", render: (w) => fmtNum(w.e2e_options) },
-    { header: "Avg TAT", align: "right", render: (w) => w.avg_tat.toFixed(2) },
+    { header: "Avg TAT", align: "right", title: "Weighted avg: sum(TAT × ticket volume) / sum(ticket volume)", render: (w) => w.avg_tat.toFixed(2) },
     { header: "E2E", align: "right", render: (w) => fmtNum(w.e2e_tickets) },
     { header: "Ad-hoc", align: "right", render: (w) => fmtNum(w.adhoc_tickets) },
     { header: "Closed", align: "right", render: (w) => fmtNum(w.closed_tickets) },

@@ -33,6 +33,7 @@ export default function BifurcationTab({ data }: { data: any }) {
     {
       header: "Avg TAT (Days)",
       align: "right",
+      title: "Weighted avg: sum(TAT × ticket volume) / sum(ticket volume)",
       render: (r) => (r.avg_tat === null ? "—" : r.avg_tat.toFixed(2)),
     },
     {
