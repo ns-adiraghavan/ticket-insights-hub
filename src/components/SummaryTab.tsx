@@ -235,6 +235,62 @@ export default function SummaryTab({ data }: { data: any }) {
         <Pill>{b.e2e_vs_adhoc}</Pill>
       </div>
 
+      <div>
+        <SectionHeader>TAT Insights</SectionHeader>
+        <div
+          style={{
+            background: "#F8FAFC",
+            borderRadius: 8,
+            padding: 16,
+            display: "flex",
+            flexDirection: "column",
+            gap: 14,
+          }}
+        >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+            <StatItem label="Overall Avg" value={insights.overall_avg} valueColor="#185FA5" />
+            <StatItem label="Min" value={insights.min_tat} />
+            <StatItem label="Max" value={insights.max_tat} />
+            <StatItem label="Median" value={insights.median_tat} />
+          </div>
+
+          <div style={{ height: 1, background: "#E2E8F0" }} />
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <HealthBand
+              bg="#EAF3DE"
+              labelColor="#27500A"
+              label="On track — 0 to 5 days"
+              count="171 tickets"
+              fillColor="#639922"
+              fillWidth={61}
+              percentage="61.1%"
+              tooltip="tat_adjusted ≤ 5 days"
+            />
+            <HealthBand
+              bg="#FAEEDA"
+              labelColor="#633806"
+              label="At risk — 5 to 15 days"
+              count="102 tickets"
+              fillColor="#EF9F27"
+              fillWidth={36}
+              percentage="36.4%"
+              tooltip="5 < tat_adjusted ≤ 15 days"
+            />
+            <HealthBand
+              bg="#FCEBEB"
+              labelColor="#791F1F"
+              label="Breached — 15+ days"
+              count="7 tickets"
+              fillColor="#E24B4A"
+              fillWidth={3}
+              percentage="2.5%"
+              tooltip="tat_adjusted > 15 days"
+            />
+          </div>
+        </div>
+      </div>
+
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
           <SectionHeader>Priority Breakdown</SectionHeader>
@@ -255,61 +311,6 @@ export default function SummaryTab({ data }: { data: any }) {
         <div>
           <SectionHeader>Platform</SectionHeader>
           <DataTable columns={platformCols} rows={data.platform} />
-        </div>
-        <div>
-          <SectionHeader>TAT Insights</SectionHeader>
-          <div
-            style={{
-              background: "#F8FAFC",
-              borderRadius: 8,
-              padding: 16,
-              display: "flex",
-              flexDirection: "column",
-              gap: 14,
-            }}
-          >
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
-              <StatItem label="Overall Avg" value={insights.overall_avg} valueColor="#185FA5" />
-              <StatItem label="Min" value={insights.min_tat} />
-              <StatItem label="Max" value={insights.max_tat} />
-              <StatItem label="Median" value={insights.median_tat} />
-            </div>
-
-            <div style={{ height: 1, background: "#E2E8F0" }} />
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <HealthBand
-                bg="#EAF3DE"
-                labelColor="#27500A"
-                label="On track — 0 to 5 days"
-                count="171 tickets"
-                fillColor="#639922"
-                fillWidth={61}
-                percentage="61.1%"
-                tooltip="tat_adjusted ≤ 5 days"
-              />
-              <HealthBand
-                bg="#FAEEDA"
-                labelColor="#633806"
-                label="At risk — 5 to 15 days"
-                count="102 tickets"
-                fillColor="#EF9F27"
-                fillWidth={36}
-                percentage="36.4%"
-                tooltip="5 < tat_adjusted ≤ 15 days"
-              />
-              <HealthBand
-                bg="#FCEBEB"
-                labelColor="#791F1F"
-                label="Breached — 15+ days"
-                count="7 tickets"
-                fillColor="#E24B4A"
-                fillWidth={3}
-                percentage="2.5%"
-                tooltip="tat_adjusted > 15 days"
-              />
-            </div>
-          </div>
         </div>
       </div>
 
