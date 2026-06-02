@@ -1,40 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import WowTab from "./components/WowTab";
 import SummaryTab from "./components/SummaryTab";
 import BifurcationTab from "./components/BifurcationTab";
 import EodTab from "./components/EodTab";
 import Login from "./components/Login";
 
+import wowData from "./data/wow";
+import summaryData from "./data/summary";
+import bifurcationData from "./data/bifurcation";
+import eodData from "./data/eod";
+
 type TabKey = "wow" | "summary" | "bifurcation" | "eod";
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
   const [tab, setTab] = useState<TabKey>("wow");
-  const [wowData, setWowData] = useState<any>(null);
-  const [summaryData, setSummaryData] = useState<any>(null);
-  const [bifurcationData, setBifurcationData] = useState<any>(null);
-  const [eodData, setEodData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/wow.json").then((r) => { if (!r.ok) throw new Error(`wow.json ${r.status}`); return r.json(); }),
-      fetch("/summary.json").then((r) => { if (!r.ok) throw new Error(`summary.json ${r.status}`); return r.json(); }),
-      fetch("/bifurcation.json").then((r) => { if (!r.ok) throw new Error(`bifurcation.json ${r.status}`); return r.json(); }),
-      fetch("/eod.json").then((r) => { if (!r.ok) throw new Error(`eod.json ${r.status}`); return r.json(); }),
-    ])
-      .then(([wow, summary, bif, eod]) => {
-        setWowData(wow);
-        setSummaryData(summary);
-        setBifurcationData(bif);
-        setEodData(eod);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("JSON load failed:", err.message);
-        setLoading(false);
-      });
-  }, []);
 
   const tabs: { key: TabKey; label: string }[] = [
     { key: "wow", label: "WoW Dashboard" },
@@ -129,35 +109,10 @@ export default function App() {
       </nav>
 
       <main style={{ padding: 24 }}>
-        {loading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: 400,
-            }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                border: "4px solid #E2E8F0",
-                borderTopColor: "#0EA5E9",
-                borderRadius: "50%",
-                animation: "spin 0.8s linear infinite",
-              }}
-            />
-            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-          </div>
-        ) : (
-          <>
-            {tab === "wow" && <WowTab data={wowData} />}
-            {tab === "summary" && <SummaryTab data={summaryData} />}
-            {tab === "bifurcation" && <BifurcationTab data={bifurcationData} />}
-            {tab === "eod" && <EodTab data={eodData} />}
-          </>
-        )}
+        {tab === "wow" && <WowTab data={wowData} />}
+        {tab === "summary" && <SummaryTab data={summaryData} />}
+        {tab === "bifurcation" && <BifurcationTab data={bifurcationData} />}
+        {tab === "eod" && <EodTab data={eodData} />}
       </main>
     </div>
   );
