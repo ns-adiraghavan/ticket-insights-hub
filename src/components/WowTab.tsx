@@ -138,6 +138,9 @@ export default function WowTab({ data }: { data: any }) {
       </div>
 
       <DataTable columns={columns} rows={weeks} footer={footer} />
+      <div style={{ fontSize: 12, color: "#94A3B8", marginTop: -12 }}>
+        * W18 includes tickets from 27 Apr – 03 May. W19 WoW% is calculated against this partial baseline.
+      </div>
     </div>
   );
 }
