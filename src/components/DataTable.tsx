@@ -69,6 +69,7 @@ export default function DataTable<T>({ columns, rows, footer }: Props<T>) {
                 {columns.map((c, ci) => (
                   <td
                     key={ci}
+                    title={c.title}
                     style={{
                       padding: "9px 12px",
                       textAlign: c.align ?? "left",
