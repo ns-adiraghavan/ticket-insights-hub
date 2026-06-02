@@ -59,9 +59,9 @@ export default function App() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <img
-            src="/netscribes-logo.png"
+            src="/netscribes-logo-white.png"
             alt="Netscribes"
-            style={{ maxHeight: 28, background: "#fff", padding: "2px 6px", borderRadius: 4 }}
+            style={{ maxHeight: 28 }}
           />
           <h1 style={{ fontSize: 15, fontWeight: 500, margin: 0, color: "#fff" }}>
             UCW Ticket Quality &amp; TAT Dashboard
