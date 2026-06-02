@@ -1,9 +1,16 @@
 interface Props {
   label: string;
   value: string | number;
+  wowPct?: number | null;
 }
 
-export default function KpiCard({ label, value }: Props) {
+export default function KpiCard({ label, value, wowPct }: Props) {
+  const hasWow = wowPct !== undefined && wowPct !== null && isFinite(wowPct);
+  const positive = hasWow && (wowPct as number) >= 0;
+  const color = positive ? "#16A34A" : "#DC2626";
+  const bg = positive ? "#DCFCE7" : "#FEE2E2";
+  const arrow = positive ? "▲" : "▼";
+
   return (
     <div
       style={{
@@ -38,6 +45,29 @@ export default function KpiCard({ label, value }: Props) {
       >
         {value}
       </div>
+      {hasWow && (
+        <div
+          style={{
+            marginTop: 8,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 4,
+            background: bg,
+            color,
+            fontSize: 11,
+            fontWeight: 600,
+            padding: "2px 8px",
+            borderRadius: 999,
+          }}
+          title="Week-over-week change (W22 vs W21)"
+        >
+          <span>{arrow}</span>
+          <span>
+            {positive ? "+" : ""}
+            {(wowPct as number).toFixed(1)}%
+          </span>
+        </div>
+      )}
     </div>
   );
 }

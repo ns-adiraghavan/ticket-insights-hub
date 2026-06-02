@@ -53,6 +53,16 @@ export default function WowTab({ data }: { data: any }) {
   const k = data.kpis;
   const weeks: Week[] = data.weeks;
 
+  const last = weeks[weeks.length - 1];
+  const prev = weeks[weeks.length - 2];
+  const wow = (key: keyof Week): number | null => {
+    if (!last || !prev) return null;
+    const a = Number(last[key]);
+    const b = Number(prev[key]);
+    if (!isFinite(a) || !isFinite(b) || b === 0) return null;
+    return ((a - b) / b) * 100;
+  };
+
   const chartData = weeks.map((w) => ({
     name: `W${w.week_number} ${fmtDate(w.week_start)}–${fmtDate(w.week_end).replace(/^\d{2}-/, "")}`,
     Tickets: w.tickets,
@@ -93,13 +103,14 @@ export default function WowTab({ data }: { data: any }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {(() => null)()}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}>
-        <KpiCard label="Total Tickets" value={fmtNum(k.total_tickets)} />
-        <KpiCard label="Ad-hoc SKUs" value={fmtNum(k.adhoc_skus)} />
-        <KpiCard label="E2E Options" value={fmtNum(k.e2e_options)} />
-        <KpiCard label="Avg TAT (weighted)" value={`${k.avg_tat} days`} />
-        <KpiCard label="E2E Tickets" value={fmtNum(k.e2e_tickets)} />
-        <KpiCard label="Ad-hoc Tickets" value={fmtNum(k.adhoc_tickets)} />
+        <KpiCard label="Total Tickets" value={fmtNum(k.total_tickets)} wowPct={wow("tickets")} />
+        <KpiCard label="Ad-hoc SKUs" value={fmtNum(k.adhoc_skus)} wowPct={wow("adhoc_skus")} />
+        <KpiCard label="E2E Options" value={fmtNum(k.e2e_options)} wowPct={wow("e2e_options")} />
+        <KpiCard label="Avg TAT (weighted)" value={`${k.avg_tat} days`} wowPct={wow("avg_tat")} />
+        <KpiCard label="E2E Tickets" value={fmtNum(k.e2e_tickets)} wowPct={wow("e2e_tickets")} />
+        <KpiCard label="Ad-hoc Tickets" value={fmtNum(k.adhoc_tickets)} wowPct={wow("adhoc_tickets")} />
       </div>
 
       <div
