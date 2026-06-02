@@ -133,6 +133,7 @@ export default function WowTab({ data }: { data: any }) {
               <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#64748B" }} />
               <YAxis yAxisId="left" tick={{ fontSize: 11, fill: "#64748B" }} />
               <YAxis yAxisId="right" orientation="right" domain={[0, 8]} tick={{ fontSize: 11, fill: "#64748B" }} />
+              <YAxis yAxisId="right2" orientation="right" stroke="#8B5CF6" tickCount={5} width={45} />
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 12 }} />
               <Bar yAxisId="left" dataKey="Tickets" fill="#0EA5E9" radius={[4, 4, 0, 0]} />
@@ -143,6 +144,16 @@ export default function WowTab({ data }: { data: any }) {
                 stroke="#F59E0B"
                 strokeWidth={2}
                 dot={{ r: 4 }}
+              />
+              <Line
+                yAxisId="right2"
+                type="monotone"
+                dataKey="Cumulative"
+                stroke="#8B5CF6"
+                strokeWidth={2}
+                dot={false}
+                strokeDasharray="5 4"
+                name="Cumulative Tickets"
               />
             </ComposedChart>
           </ResponsiveContainer>
