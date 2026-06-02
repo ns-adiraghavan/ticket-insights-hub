@@ -151,6 +151,55 @@ export default function BifurcationTab({ data }: { data: any }) {
             ) : null
           )}
         </div>
+
+        {/* Donut chart */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 32, marginTop: 24 }}>
+          <svg width={180} height={180} viewBox="0 0 42 42">
+            <circle cx="21" cy="21" r="15.915" fill="#fff" stroke="#F1F5F9" strokeWidth="6" />
+            {(() => {
+              let offset = 25;
+              return rows.map((r) => {
+                if (r.pct <= 0) return null;
+                const dash = `${r.pct} ${100 - r.pct}`;
+                const el = (
+                  <circle
+                    key={r.tat_bucket}
+                    cx="21"
+                    cy="21"
+                    r="15.915"
+                    fill="transparent"
+                    stroke={BUCKET_COLOR[r.tat_bucket] ?? "#0EA5E9"}
+                    strokeWidth="6"
+                    strokeDasharray={dash}
+                    strokeDashoffset={offset}
+                    transform="rotate(-90 21 21)"
+                  >
+                    <title>{`${r.tat_bucket}: ${r.pct.toFixed(2)}%`}</title>
+                  </circle>
+                );
+                offset = (offset - r.pct + 100) % 100;
+                return el;
+              });
+            })()}
+          </svg>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#64748B" }}>
+            {rows.map((r) => (
+              <div key={r.tat_bucket} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 12,
+                    height: 12,
+                    background: BUCKET_COLOR[r.tat_bucket] ?? "#0EA5E9",
+                    borderRadius: 3,
+                  }}
+                />
+                <span style={{ minWidth: 90 }}>{r.tat_bucket}</span>
+                <span style={{ fontWeight: 600, color: "#1E293B" }}>{r.pct.toFixed(2)}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
         <div
           style={{
             display: "flex",
