@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DataTable, { Column } from "./DataTable";
 
 function fmtNum(n: number | null | undefined) {
@@ -120,6 +121,100 @@ export default function SummaryTab({ data }: { data: any }) {
     </div>
   );
 
+  function StatItem({ label, value, valueColor }: { label: string; value: string | number; valueColor?: string }) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: 11, color: "#64748B", marginBottom: 4 }}>{label}</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: valueColor || "#1A3C5E" }}>{value}</div>
+      </div>
+    );
+  }
+
+  function HealthBand({
+    bg,
+    labelColor,
+    label,
+    count,
+    fillColor,
+    fillWidth,
+    percentage,
+    tooltip,
+  }: {
+    bg: string;
+    labelColor: string;
+    label: string;
+    count: string;
+    fillColor: string;
+    fillWidth: number;
+    percentage: string;
+    tooltip: string;
+  }) {
+    const [showTip, setShowTip] = useState(false);
+    return (
+      <div
+        style={{
+          background: bg,
+          borderRadius: 6,
+          padding: "10px 12px",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          position: "relative",
+          cursor: "default",
+        }}
+        onMouseEnter={() => setShowTip(true)}
+        onMouseLeave={() => setShowTip(false)}
+      >
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: labelColor, marginBottom: 4 }}>{label}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ fontSize: 11, color: "#64748B" }}>{count}</div>
+            <div
+              style={{
+                width: 120,
+                height: 6,
+                background: "rgba(0,0,0,0.08)",
+                borderRadius: 3,
+                overflow: "hidden",
+                flexShrink: 0,
+              }}
+            >
+              <div
+                style={{
+                  width: `${fillWidth}%`,
+                  height: "100%",
+                  background: fillColor,
+                  borderRadius: 3,
+                  transition: "width 0.3s ease",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: labelColor, whiteSpace: "nowrap" }}>{percentage}</div>
+        {showTip && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: "calc(100% + 6px)",
+              left: 0,
+              background: "#1A3C5E",
+              color: "#fff",
+              fontSize: 11,
+              padding: "4px 8px",
+              borderRadius: 4,
+              whiteSpace: "nowrap",
+              zIndex: 10,
+              pointerEvents: "none",
+            }}
+          >
+            {tooltip}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div
@@ -165,35 +260,54 @@ export default function SummaryTab({ data }: { data: any }) {
           <SectionHeader>TAT Insights</SectionHeader>
           <div
             style={{
-              background: "#fff",
-              border: "1px solid #E2E8F0",
+              background: "#F8FAFC",
               borderRadius: 8,
               padding: 16,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
               display: "flex",
               flexDirection: "column",
-              gap: 12,
+              gap: 14,
             }}
           >
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-              {statBox("Overall Avg", insights.overall_avg)}
-              {statBox("Min", insights.min_tat)}
-              {statBox("Max", insights.max_tat)}
-              {statBox("Median", insights.median_tat)}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+              <StatItem label="Overall Avg" value={insights.overall_avg} valueColor="#185FA5" />
+              <StatItem label="Min" value={insights.min_tat} />
+              <StatItem label="Max" value={insights.max_tat} />
+              <StatItem label="Median" value={insights.median_tat} />
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {healthBadge(
-                "#22C55E",
-                `${insights.green_count} tickets (${insights.pct_0_5}%) within 5 days`
-              )}
-              {healthBadge(
-                "#F59E0B",
-                `${insights.amber_count} tickets (${insights.pct_5_15}%) within 5–15 days`
-              )}
-              {healthBadge(
-                "#EF4444",
-                `${insights.red_count} tickets (${insights.pct_15_plus}%) 15+ days`
-              )}
+
+            <div style={{ height: 1, background: "#E2E8F0" }} />
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <HealthBand
+                bg="#EAF3DE"
+                labelColor="#27500A"
+                label="On track — 0 to 5 days"
+                count="171 tickets"
+                fillColor="#639922"
+                fillWidth={61}
+                percentage="61.1%"
+                tooltip="tat_adjusted ≤ 5 days"
+              />
+              <HealthBand
+                bg="#FAEEDA"
+                labelColor="#633806"
+                label="At risk — 5 to 15 days"
+                count="102 tickets"
+                fillColor="#EF9F27"
+                fillWidth={36}
+                percentage="36.4%"
+                tooltip="5 < tat_adjusted ≤ 15 days"
+              />
+              <HealthBand
+                bg="#FCEBEB"
+                labelColor="#791F1F"
+                label="Breached — 15+ days"
+                count="7 tickets"
+                fillColor="#E24B4A"
+                fillWidth={3}
+                percentage="2.5%"
+                tooltip="tat_adjusted > 15 days"
+              />
             </div>
           </div>
         </div>
