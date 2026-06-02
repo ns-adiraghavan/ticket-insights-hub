@@ -311,37 +311,12 @@ export default function EodTab({ data }: { data: any }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {/* Date picker */}
-      <div
-        style={{
-          display: "flex",
-          gap: 8,
-          overflowX: "auto",
-          paddingBottom: 4,
-        }}
-      >
-        {dates.map((d) => {
-          const active = d === selected;
-          return (
-            <button
-              key={d}
-              onClick={() => setSelected(d)}
-              style={{
-                padding: "6px 14px",
-                borderRadius: 999,
-                fontSize: 13,
-                cursor: "pointer",
-                background: active ? "#1e3a5f" : "#fff",
-                color: active ? "#fff" : "#64748B",
-                border: active ? "none" : "1px solid #E2E8F0",
-                fontFamily: "inherit",
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-              }}
-            >
-              {formatPill(d)}
-            </button>
-          );
-        })}
+      <div>
+        <CalendarPicker
+          available={new Set(dates)}
+          selected={selected}
+          onSelect={setSelected}
+        />
       </div>
 
       {/* KPI row */}
