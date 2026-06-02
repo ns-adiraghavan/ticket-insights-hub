@@ -76,7 +76,7 @@ export default function WowTab({ data }: { data: any }) {
   ];
 
   const footer = (
-    <tr style={{ background: "#F1F5F9", fontWeight: 700 }}>
+    <tr style={{ background: "#f0f4f8", fontWeight: 500 }}>
       <td style={tdFoot} colSpan={3}>Total</td>
       <td style={{ ...tdFoot, textAlign: "right" }}>{fmtNum(k.total_tickets)}</td>
       <td style={{ ...tdFoot, textAlign: "right" }}>{fmtNum(k.adhoc_skus)}</td>
@@ -120,7 +120,7 @@ export default function WowTab({ data }: { data: any }) {
               <CartesianGrid stroke="#F1F5F9" />
               <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#64748B" }} />
               <YAxis yAxisId="left" tick={{ fontSize: 11, fill: "#64748B" }} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fill: "#64748B" }} />
+              <YAxis yAxisId="right" orientation="right" domain={[0, 8]} tick={{ fontSize: 11, fill: "#64748B" }} />
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 12 }} />
               <Bar yAxisId="left" dataKey="Tickets" fill="#0EA5E9" radius={[4, 4, 0, 0]} />
@@ -147,7 +147,8 @@ export default function WowTab({ data }: { data: any }) {
 
 const tdFoot: React.CSSProperties = {
   padding: "10px 12px",
-  color: "#1A3C5E",
-  borderTop: "1px solid #E2E8F0",
-  fontSize: 12,
+  color: "#1e3a5f",
+  borderTop: "1px solid #d0d8e8",
+  fontSize: 13,
+  fontWeight: 500,
 };
