@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DataTable, { Column } from "./DataTable";
 
 function fmtNum(n: number | null | undefined) {
