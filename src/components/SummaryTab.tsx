@@ -165,35 +165,54 @@ export default function SummaryTab({ data }: { data: any }) {
           <SectionHeader>TAT Insights</SectionHeader>
           <div
             style={{
-              background: "#fff",
-              border: "1px solid #E2E8F0",
+              background: "#F8FAFC",
               borderRadius: 8,
               padding: 16,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
               display: "flex",
               flexDirection: "column",
-              gap: 12,
+              gap: 14,
             }}
           >
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-              {statBox("Overall Avg", insights.overall_avg)}
-              {statBox("Min", insights.min_tat)}
-              {statBox("Max", insights.max_tat)}
-              {statBox("Median", insights.median_tat)}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+              <StatItem label="Overall Avg" value={insights.overall_avg} valueColor="#185FA5" />
+              <StatItem label="Min" value={insights.min_tat} />
+              <StatItem label="Max" value={insights.max_tat} />
+              <StatItem label="Median" value={insights.median_tat} />
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {healthBadge(
-                "#22C55E",
-                `${insights.green_count} tickets (${insights.pct_0_5}%) within 5 days`
-              )}
-              {healthBadge(
-                "#F59E0B",
-                `${insights.amber_count} tickets (${insights.pct_5_15}%) within 5–15 days`
-              )}
-              {healthBadge(
-                "#EF4444",
-                `${insights.red_count} tickets (${insights.pct_15_plus}%) 15+ days`
-              )}
+
+            <div style={{ height: 1, background: "#E2E8F0" }} />
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <HealthBand
+                bg="#EAF3DE"
+                labelColor="#27500A"
+                label="On track — 0 to 5 days"
+                count="171 tickets"
+                fillColor="#639922"
+                fillWidth={61}
+                percentage="61.1%"
+                tooltip="tat_adjusted ≤ 5 days"
+              />
+              <HealthBand
+                bg="#FAEEDA"
+                labelColor="#633806"
+                label="At risk — 5 to 15 days"
+                count="102 tickets"
+                fillColor="#EF9F27"
+                fillWidth={36}
+                percentage="36.4%"
+                tooltip="5 < tat_adjusted ≤ 15 days"
+              />
+              <HealthBand
+                bg="#FCEBEB"
+                labelColor="#791F1F"
+                label="Breached — 15+ days"
+                count="7 tickets"
+                fillColor="#E24B4A"
+                fillWidth={3}
+                percentage="2.5%"
+                tooltip="tat_adjusted > 15 days"
+              />
             </div>
           </div>
         </div>
