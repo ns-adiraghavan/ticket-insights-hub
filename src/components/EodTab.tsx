@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import KpiCard from "./KpiCard";
 import DataTable, { Column } from "./DataTable";
 
