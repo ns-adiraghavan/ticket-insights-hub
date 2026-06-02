@@ -72,7 +72,7 @@ export default function SummaryTab({ data }: { data: any }) {
   ];
 
   const platformCols: Column<any>[] = [
-    { header: "Platform", render: (r) => r.platform },
+    { header: "Platform", render: (r) => r.platform.replace(";", " & ") },
     { header: "Tickets", align: "right", render: (r) => fmtNum(r.tickets) },
     { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
     { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
