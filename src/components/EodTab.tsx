@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import KpiCard from "./KpiCard";
 import DataTable, { Column } from "./DataTable";
 
@@ -17,11 +17,215 @@ function fmtNum(n: number | null | undefined) {
   return n.toLocaleString();
 }
 
-function formatPill(dateStr: string) {
+function formatLong(dateStr: string) {
   const d = new Date(dateStr);
   const day = String(d.getUTCDate()).padStart(2, "0");
   const month = d.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
-  return `${day} ${month}`;
+  const year = d.getUTCFullYear();
+  return `${day} ${month} ${year}`;
+}
+
+function ymd(y: number, m: number, d: number) {
+  return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+}
+
+function CalendarPicker({
+  available,
+  selected,
+  onSelect,
+}: {
+  available: Set<string>;
+  selected: string;
+  onSelect: (d: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const sel = new Date(selected);
+  const [view, setView] = useState({
+    y: sel.getUTCFullYear(),
+    m: sel.getUTCMonth(),
+  });
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  const sortedAvail = useMemo(
+    () => Array.from(available).sort(),
+    [available]
+  );
+  const minDate = sortedAvail[0];
+  const maxDate = sortedAvail[sortedAvail.length - 1];
+
+  const firstOfMonth = new Date(Date.UTC(view.y, view.m, 1));
+  const startWeekday = firstOfMonth.getUTCDay();
+  const daysInMonth = new Date(Date.UTC(view.y, view.m + 1, 0)).getUTCDate();
+
+  const canPrev = minDate && ymd(view.y, view.m, 1) > minDate.slice(0, 8) + "01";
+  const canNext =
+    maxDate && ymd(view.y, view.m + 1, 1) <= maxDate;
+
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < startWeekday; i++) cells.push(null);
+  for (let i = 1; i <= daysInMonth; i++) cells.push(i);
+
+  return (
+    <div ref={ref} style={{ position: "relative", display: "inline-block" }}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          padding: "8px 14px",
+          borderRadius: 8,
+          fontSize: 13,
+          cursor: "pointer",
+          background: "#fff",
+          color: "#1A3C5E",
+          border: "1px solid #E2E8F0",
+          fontFamily: "inherit",
+          fontWeight: 600,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        📅 {formatLong(selected)}
+        <span style={{ color: "#94A3B8", fontSize: 11 }}>▾</span>
+      </button>
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            left: 0,
+            zIndex: 50,
+            background: "#fff",
+            border: "1px solid #E2E8F0",
+            borderRadius: 10,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+            padding: 14,
+            width: 280,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 10,
+            }}
+          >
+            <button
+              onClick={() =>
+                canPrev &&
+                setView((v) =>
+                  v.m === 0 ? { y: v.y - 1, m: 11 } : { y: v.y, m: v.m - 1 }
+                )
+              }
+              disabled={!canPrev}
+              style={{
+                border: "none",
+                background: "transparent",
+                cursor: canPrev ? "pointer" : "not-allowed",
+                color: canPrev ? "#1A3C5E" : "#CBD5E1",
+                fontSize: 16,
+                padding: "2px 8px",
+              }}
+            >
+              ‹
+            </button>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#1A3C5E" }}>
+              {new Date(Date.UTC(view.y, view.m, 1)).toLocaleString("en-US", {
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC",
+              })}
+            </div>
+            <button
+              onClick={() =>
+                canNext &&
+                setView((v) =>
+                  v.m === 11 ? { y: v.y + 1, m: 0 } : { y: v.y, m: v.m + 1 }
+                )
+              }
+              disabled={!canNext}
+              style={{
+                border: "none",
+                background: "transparent",
+                cursor: canNext ? "pointer" : "not-allowed",
+                color: canNext ? "#1A3C5E" : "#CBD5E1",
+                fontSize: 16,
+                padding: "2px 8px",
+              }}
+            >
+              ›
+            </button>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(7, 1fr)",
+              gap: 2,
+              fontSize: 11,
+              color: "#94A3B8",
+              marginBottom: 4,
+            }}
+          >
+            {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
+              <div key={i} style={{ textAlign: "center", padding: 4 }}>
+                {d}
+              </div>
+            ))}
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(7, 1fr)",
+              gap: 2,
+            }}
+          >
+            {cells.map((d, i) => {
+              if (d === null) return <div key={i} />;
+              const dateStr = ymd(view.y, view.m, d);
+              const isAvail = available.has(dateStr);
+              const isSel = dateStr === selected;
+              return (
+                <button
+                  key={i}
+                  disabled={!isAvail}
+                  onClick={() => {
+                    onSelect(dateStr);
+                    setOpen(false);
+                  }}
+                  style={{
+                    aspectRatio: "1",
+                    border: "none",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    fontFamily: "inherit",
+                    cursor: isAvail ? "pointer" : "not-allowed",
+                    background: isSel ? "#1e3a5f" : isAvail ? "#F1F5F9" : "transparent",
+                    color: isSel
+                      ? "#fff"
+                      : isAvail
+                      ? "#1A3C5E"
+                      : "#CBD5E1",
+                    fontWeight: isSel ? 700 : isAvail ? 500 : 400,
+                  }}
+                >
+                  {d}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
@@ -107,37 +311,12 @@ export default function EodTab({ data }: { data: any }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {/* Date picker */}
-      <div
-        style={{
-          display: "flex",
-          gap: 8,
-          overflowX: "auto",
-          paddingBottom: 4,
-        }}
-      >
-        {dates.map((d) => {
-          const active = d === selected;
-          return (
-            <button
-              key={d}
-              onClick={() => setSelected(d)}
-              style={{
-                padding: "6px 14px",
-                borderRadius: 999,
-                fontSize: 13,
-                cursor: "pointer",
-                background: active ? "#1e3a5f" : "#fff",
-                color: active ? "#fff" : "#64748B",
-                border: active ? "none" : "1px solid #E2E8F0",
-                fontFamily: "inherit",
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-              }}
-            >
-              {formatPill(d)}
-            </button>
-          );
-        })}
+      <div>
+        <CalendarPicker
+          available={new Set(dates)}
+          selected={selected}
+          onSelect={setSelected}
+        />
       </div>
 
       {/* KPI row */}
