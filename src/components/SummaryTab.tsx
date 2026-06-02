@@ -59,7 +59,7 @@ export default function SummaryTab({ data }: { data: any }) {
     { header: "Tickets", align: "right", render: (r) => fmtNum(r.tickets) },
     { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
     { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
-    { header: "Avg TAT", align: "right", render: (r) => r.avg_tat.toFixed(2) },
+    { header: "Avg TAT", align: "right", title: "Weighted avg: sum(TAT × ticket volume) / sum(ticket volume)", render: (r) => r.avg_tat.toFixed(2) },
   ];
 
   const categoryCols: Column<any>[] = [
@@ -67,7 +67,7 @@ export default function SummaryTab({ data }: { data: any }) {
     { header: "Tickets", align: "right", render: (r) => fmtNum(r.tickets) },
     { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
     { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
-    { header: "Avg TAT", align: "right", render: (r) => r.avg_tat.toFixed(2) },
+    { header: "Avg TAT", align: "right", title: "Weighted avg: sum(TAT × ticket volume) / sum(ticket volume)", render: (r) => r.avg_tat.toFixed(2) },
     { header: "Closure %", align: "right", render: (r) => `${r.closure_rate.toFixed(2)}%` },
   ];
 
@@ -76,7 +76,7 @@ export default function SummaryTab({ data }: { data: any }) {
     { header: "Tickets", align: "right", render: (r) => fmtNum(r.tickets) },
     { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
     { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
-    { header: "Avg TAT", align: "right", render: (r) => r.avg_tat.toFixed(2) },
+    { header: "Avg TAT", align: "right", title: "Weighted avg: sum(TAT × ticket volume) / sum(ticket volume)", render: (r) => r.avg_tat.toFixed(2) },
   ];
 
   const brandCols: Column<any>[] = [
@@ -84,7 +84,7 @@ export default function SummaryTab({ data }: { data: any }) {
     { header: "Tickets", align: "right", render: (r) => fmtNum(r.tickets) },
     { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
     { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
-    { header: "Avg TAT", align: "right", render: (r) => r.avg_tat.toFixed(2) },
+    { header: "Avg TAT", align: "right", title: "Weighted avg: sum(TAT × ticket volume) / sum(ticket volume)", render: (r) => r.avg_tat.toFixed(2) },
     { header: "Closure %", align: "right", render: (r) => `${r.closure_rate.toFixed(2)}%` },
   ];
 
