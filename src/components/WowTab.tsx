@@ -93,13 +93,14 @@ export default function WowTab({ data }: { data: any }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {(() => null)()}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}>
-        <KpiCard label="Total Tickets" value={fmtNum(k.total_tickets)} />
-        <KpiCard label="Ad-hoc SKUs" value={fmtNum(k.adhoc_skus)} />
-        <KpiCard label="E2E Options" value={fmtNum(k.e2e_options)} />
-        <KpiCard label="Avg TAT (weighted)" value={`${k.avg_tat} days`} />
-        <KpiCard label="E2E Tickets" value={fmtNum(k.e2e_tickets)} />
-        <KpiCard label="Ad-hoc Tickets" value={fmtNum(k.adhoc_tickets)} />
+        <KpiCard label="Total Tickets" value={fmtNum(k.total_tickets)} wowPct={wow("tickets")} />
+        <KpiCard label="Ad-hoc SKUs" value={fmtNum(k.adhoc_skus)} wowPct={wow("adhoc_skus")} />
+        <KpiCard label="E2E Options" value={fmtNum(k.e2e_options)} wowPct={wow("e2e_options")} />
+        <KpiCard label="Avg TAT (weighted)" value={`${k.avg_tat} days`} wowPct={wow("avg_tat")} />
+        <KpiCard label="E2E Tickets" value={fmtNum(k.e2e_tickets)} wowPct={wow("e2e_tickets")} />
+        <KpiCard label="Ad-hoc Tickets" value={fmtNum(k.adhoc_tickets)} wowPct={wow("adhoc_tickets")} />
       </div>
 
       <div
