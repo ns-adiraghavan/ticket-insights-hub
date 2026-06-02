@@ -42,7 +42,7 @@ export default function SummaryTab({ data }: { data: any }) {
     { header: "Priority", render: (r) => r.priority },
     { header: "Count", align: "right", render: (r) => fmtNum(r.count) },
     { header: "% of Total", align: "right", render: (r) => `${r.pct_of_total.toFixed(2)}%` },
-    { header: "Avg TAT", align: "right", render: (r) => r.avg_tat.toFixed(2) },
+    { header: "Avg TAT", align: "right", title: "Weighted avg: sum(TAT × ticket volume) / sum(ticket volume)", render: (r) => r.avg_tat.toFixed(2) },
     { header: "Closure Rate", align: "right", render: (r) => `${r.closure_rate.toFixed(2)}%` },
   ];
 
