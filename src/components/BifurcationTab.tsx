@@ -123,7 +123,7 @@ export default function BifurcationTab({ data }: { data: any }) {
         <div
           style={{
             display: "flex",
-            height: 60,
+            height: 90,
             width: "100%",
             borderRadius: 6,
             overflow: "hidden",
