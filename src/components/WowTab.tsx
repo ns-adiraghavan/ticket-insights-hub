@@ -53,6 +53,16 @@ export default function WowTab({ data }: { data: any }) {
   const k = data.kpis;
   const weeks: Week[] = data.weeks;
 
+  const last = weeks[weeks.length - 1];
+  const prev = weeks[weeks.length - 2];
+  const wow = (key: keyof Week): number | null => {
+    if (!last || !prev) return null;
+    const a = Number(last[key]);
+    const b = Number(prev[key]);
+    if (!isFinite(a) || !isFinite(b) || b === 0) return null;
+    return ((a - b) / b) * 100;
+  };
+
   const chartData = weeks.map((w) => ({
     name: `W${w.week_number} ${fmtDate(w.week_start)}–${fmtDate(w.week_end).replace(/^\d{2}-/, "")}`,
     Tickets: w.tickets,
