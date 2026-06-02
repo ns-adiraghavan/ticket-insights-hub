@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import WowTab from "./components/WowTab";
 import SummaryTab from "./components/SummaryTab";
 import BifurcationTab from "./components/BifurcationTab";
+import EodTab from "./components/EodTab";
 import Login from "./components/Login";
 
-type TabKey = "wow" | "summary" | "bifurcation";
+type TabKey = "wow" | "summary" | "bifurcation" | "eod";
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
@@ -12,6 +13,7 @@ export default function App() {
   const [wowData, setWowData] = useState<any>(null);
   const [summaryData, setSummaryData] = useState<any>(null);
   const [bifurcationData, setBifurcationData] = useState<any>(null);
+  const [eodData, setEodData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,10 +21,12 @@ export default function App() {
       fetch("/wow.json").then((r) => r.json()),
       fetch("/summary.json").then((r) => r.json()),
       fetch("/bifurcation.json").then((r) => r.json()),
-    ]).then(([wow, summary, bif]) => {
+      fetch("/eod.json").then((r) => r.json()),
+    ]).then(([wow, summary, bif, eod]) => {
       setWowData(wow);
       setSummaryData(summary);
       setBifurcationData(bif);
+      setEodData(eod);
       setLoading(false);
     });
   }, []);
@@ -31,6 +35,7 @@ export default function App() {
     { key: "wow", label: "WoW Dashboard" },
     { key: "summary", label: "Monthly Summary" },
     { key: "bifurcation", label: "TAT Bifurcation" },
+    { key: "eod", label: "Day View" },
   ];
 
   if (!signedIn) {
@@ -145,6 +150,7 @@ export default function App() {
             {tab === "wow" && <WowTab data={wowData} />}
             {tab === "summary" && <SummaryTab data={summaryData} />}
             {tab === "bifurcation" && <BifurcationTab data={bifurcationData} />}
+            {tab === "eod" && <EodTab data={eodData} />}
           </>
         )}
       </main>
