@@ -67,6 +67,7 @@ export default function WowTab({ data }: { data: any }) {
     name: `W${w.week_number} ${fmtDate(w.week_start)}–${fmtDate(w.week_end).replace(/^\d{2}-/, "")}`,
     Tickets: w.tickets,
     "Avg TAT": w.avg_tat,
+    Cumulative: w.cumulative_tickets,
   }));
 
   const columns: Column<Week>[] = [
