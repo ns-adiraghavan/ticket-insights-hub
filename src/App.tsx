@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import WowTab from "./components/WowTab";
 import SummaryTab from "./components/SummaryTab";
 import BifurcationTab from "./components/BifurcationTab";
+import Login from "./components/Login";
 
 type TabKey = "wow" | "summary" | "bifurcation";
 
 export default function App() {
+  const [signedIn, setSignedIn] = useState(false);
   const [tab, setTab] = useState<TabKey>("wow");
   const [wowData, setWowData] = useState<any>(null);
   const [summaryData, setSummaryData] = useState<any>(null);
@@ -31,6 +33,10 @@ export default function App() {
     { key: "bifurcation", label: "TAT Bifurcation" },
   ];
 
+  if (!signedIn) {
+    return <Login onSignIn={() => setSignedIn(true)} />;
+  }
+
   return (
     <div
       style={{
@@ -43,7 +49,7 @@ export default function App() {
       <header
         style={{
           height: 56,
-          background: "#1A3C5E",
+          background: "#1e3a5f",
           color: "#fff",
           display: "flex",
           alignItems: "center",
@@ -51,23 +57,33 @@ export default function App() {
           padding: "0 24px",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <h1 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <img
+            src="/netscribes-logo.png"
+            alt="Netscribes"
+            style={{ maxHeight: 28, background: "#fff", padding: "2px 6px", borderRadius: 4 }}
+          />
+          <h1 style={{ fontSize: 15, fontWeight: 500, margin: 0, color: "#fff" }}>
             UCW Ticket Quality &amp; TAT Dashboard
           </h1>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <span
             style={{
-              background: "#0EA5E9",
+              background: "#e8f0fb",
+              color: "#1e3a5f",
               padding: "3px 10px",
-              borderRadius: 6,
+              borderRadius: 999,
               fontSize: 12,
               fontWeight: 500,
             }}
           >
             May 2026
           </span>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)" }}>
+            Netscribes × TataCliq
+          </div>
         </div>
-        <div style={{ fontSize: 13, opacity: 0.9 }}>Netscribes × TataCliq</div>
       </header>
 
       <nav
