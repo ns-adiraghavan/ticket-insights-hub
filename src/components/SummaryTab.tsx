@@ -121,6 +121,100 @@ export default function SummaryTab({ data }: { data: any }) {
     </div>
   );
 
+  function StatItem({ label, value, valueColor }: { label: string; value: string | number; valueColor?: string }) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: 11, color: "#64748B", marginBottom: 4 }}>{label}</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: valueColor || "#1A3C5E" }}>{value}</div>
+      </div>
+    );
+  }
+
+  function HealthBand({
+    bg,
+    labelColor,
+    label,
+    count,
+    fillColor,
+    fillWidth,
+    percentage,
+    tooltip,
+  }: {
+    bg: string;
+    labelColor: string;
+    label: string;
+    count: string;
+    fillColor: string;
+    fillWidth: number;
+    percentage: string;
+    tooltip: string;
+  }) {
+    const [showTip, setShowTip] = useState(false);
+    return (
+      <div
+        style={{
+          background: bg,
+          borderRadius: 6,
+          padding: "10px 12px",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          position: "relative",
+          cursor: "default",
+        }}
+        onMouseEnter={() => setShowTip(true)}
+        onMouseLeave={() => setShowTip(false)}
+      >
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: labelColor, marginBottom: 4 }}>{label}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ fontSize: 11, color: "#64748B" }}>{count}</div>
+            <div
+              style={{
+                width: 120,
+                height: 6,
+                background: "rgba(0,0,0,0.08)",
+                borderRadius: 3,
+                overflow: "hidden",
+                flexShrink: 0,
+              }}
+            >
+              <div
+                style={{
+                  width: `${fillWidth}%`,
+                  height: "100%",
+                  background: fillColor,
+                  borderRadius: 3,
+                  transition: "width 0.3s ease",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: labelColor, whiteSpace: "nowrap" }}>{percentage}</div>
+        {showTip && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: "calc(100% + 6px)",
+              left: 0,
+              background: "#1A3C5E",
+              color: "#fff",
+              fontSize: 11,
+              padding: "4px 8px",
+              borderRadius: 4,
+              whiteSpace: "nowrap",
+              zIndex: 10,
+              pointerEvents: "none",
+            }}
+          >
+            {tooltip}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div
