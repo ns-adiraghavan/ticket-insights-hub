@@ -18,17 +18,22 @@ export default function App() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/wow.json").then((r) => r.json()),
-      fetch("/summary.json").then((r) => r.json()),
-      fetch("/bifurcation.json").then((r) => r.json()),
-      fetch("/eod.json").then((r) => r.json()),
-    ]).then(([wow, summary, bif, eod]) => {
-      setWowData(wow);
-      setSummaryData(summary);
-      setBifurcationData(bif);
-      setEodData(eod);
-      setLoading(false);
-    });
+      fetch("/wow.json").then((r) => { if (!r.ok) throw new Error(`wow.json ${r.status}`); return r.json(); }),
+      fetch("/summary.json").then((r) => { if (!r.ok) throw new Error(`summary.json ${r.status}`); return r.json(); }),
+      fetch("/bifurcation.json").then((r) => { if (!r.ok) throw new Error(`bifurcation.json ${r.status}`); return r.json(); }),
+      fetch("/eod.json").then((r) => { if (!r.ok) throw new Error(`eod.json ${r.status}`); return r.json(); }),
+    ])
+      .then(([wow, summary, bif, eod]) => {
+        setWowData(wow);
+        setSummaryData(summary);
+        setBifurcationData(bif);
+        setEodData(eod);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("JSON load failed:", err.message);
+        setLoading(false);
+      });
   }, []);
 
   const tabs: { key: TabKey; label: string }[] = [
