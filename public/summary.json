@@ -1,6 +1,6 @@
 {
   "data_month": "2026-05-01",
-  "generated_at": "2026-06-02T17:01:55.549670+00:00",
+  "generated_at": "2026-06-02T18:01:38.298536+00:00",
   "banner": {
     "peak_week": 19,
     "peak_week_tickets": 90,
@@ -231,12 +231,20 @@
   },
   "top_brands": [
     {
-      "brand_name": "adidas",
-      "tickets": 6,
-      "adhoc_skus": 717,
-      "e2e_options": 0,
-      "avg_tat": 4.97,
-      "closure_rate": 100.0
+      "brand_name": "Adidas",
+      "tickets": 9,
+      "adhoc_skus": 722,
+      "e2e_options": 124,
+      "avg_tat": 3.77,
+      "closure_rate": 88.89
+    },
+    {
+      "brand_name": "Puma",
+      "tickets": 9,
+      "adhoc_skus": 11415,
+      "e2e_options": 211,
+      "avg_tat": 7.16,
+      "closure_rate": 88.89
     },
     {
       "brand_name": "Hoversoul",
@@ -263,19 +271,19 @@
       "closure_rate": 100.0
     },
     {
-      "brand_name": "Puma",
-      "tickets": 5,
-      "adhoc_skus": 352,
-      "e2e_options": 106,
-      "avg_tat": 7.83,
-      "closure_rate": 100.0
-    },
-    {
       "brand_name": "Skechers",
       "tickets": 5,
       "adhoc_skus": 2855,
       "e2e_options": 0,
       "avg_tat": 4.53,
+      "closure_rate": 100.0
+    },
+    {
+      "brand_name": "Asics",
+      "tickets": 4,
+      "adhoc_skus": 0,
+      "e2e_options": 38,
+      "avg_tat": 1.7,
       "closure_rate": 100.0
     },
     {
@@ -303,35 +311,11 @@
       "closure_rate": 100.0
     },
     {
-      "brand_name": "PUMA",
-      "tickets": 4,
-      "adhoc_skus": 11063,
-      "e2e_options": 105,
-      "avg_tat": 7.11,
-      "closure_rate": 75.0
-    },
-    {
       "brand_name": "Soch",
       "tickets": 4,
       "adhoc_skus": 11,
       "e2e_options": 375,
       "avg_tat": 1.96,
-      "closure_rate": 100.0
-    },
-    {
-      "brand_name": "Adidas",
-      "tickets": 3,
-      "adhoc_skus": 5,
-      "e2e_options": 124,
-      "avg_tat": 2.58,
-      "closure_rate": 66.67
-    },
-    {
-      "brand_name": "Asics",
-      "tickets": 3,
-      "adhoc_skus": 0,
-      "e2e_options": 17,
-      "avg_tat": 2.79,
       "closure_rate": 100.0
     },
     {
@@ -388,6 +372,22 @@
       "adhoc_skus": 0,
       "e2e_options": 54,
       "avg_tat": 1.46,
+      "closure_rate": 100.0
+    },
+    {
+      "brand_name": "Saint G",
+      "tickets": 3,
+      "adhoc_skus": 1327,
+      "e2e_options": 114,
+      "avg_tat": 3.25,
+      "closure_rate": 66.67
+    },
+    {
+      "brand_name": "The Souled Store",
+      "tickets": 3,
+      "adhoc_skus": 0,
+      "e2e_options": 52,
+      "avg_tat": 1.06,
       "closure_rate": 100.0
     }
   ],
