@@ -75,13 +75,14 @@ export default function KpiCard({ label, value, subValue, wowPct, badgeLabel, ba
             padding: "2px 8px",
             borderRadius: 999,
           }}
-          title="Week-over-week change (W22 vs W21)"
+          title={badgeTooltip ?? "Week-over-week change (W22 vs W21)"}
         >
           <span>{arrow}</span>
           <span>
             {positive ? "+" : ""}
             {(wowPct as number).toFixed(1)}%
           </span>
+          {badgeLabel && <span style={{ fontWeight: 500, opacity: 0.8 }}>{badgeLabel}</span>}
         </div>
       )}
     </div>
