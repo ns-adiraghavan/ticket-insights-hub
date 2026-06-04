@@ -117,15 +117,16 @@ export default function WowTab({ data }: { data: any }) {
     { tickets: 0, adhoc_skus: 0, e2e_options: 0, e2e_tickets: 0, adhoc_tickets: 0, closed_tickets: 0, open_tickets: 0 },
   );
 
-  // KPI strip (kept as-is, full-data values)
-  const wow = (key: keyof Week): number | null => {
+  // KPI strip badge: last week vs monthly average across all weeks
+  const vsAvg = (key: keyof Week): number | null => {
+    if (!weeks.length) return null;
     const last = weeks[weeks.length - 1];
-    const prev = weeks[weeks.length - 2];
-    if (!last || !prev) return null;
+    if (!last) return null;
     const a = Number(last[key]);
-    const b = Number(prev[key]);
-    if (!isFinite(a) || !isFinite(b) || b === 0) return null;
-    return ((a - b) / b) * 100;
+    const sum = weeks.reduce((s, w) => s + Number(w[key] ?? 0), 0);
+    const avg = sum / weeks.length;
+    if (!isFinite(a) || !isFinite(avg) || avg === 0) return null;
+    return ((a - avg) / avg) * 100;
   };
 
   const chartData = filteredWeeks.map((w) => ({
