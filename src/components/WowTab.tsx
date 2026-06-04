@@ -342,14 +342,14 @@ export default function WowTab({ data }: { data: any }) {
               <YAxis yAxisId="right" orientation="right" domain={[0, 8]} tick={{ fontSize: 11, fill: "#64748B" }} />
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar yAxisId="left" dataKey="Tickets" fill="#0EA5E9" radius={[4, 4, 0, 0]}>
+              <Bar yAxisId="left" dataKey="Tickets" fill="#185FA5" radius={[4, 4, 0, 0]}>
                 <LabelList dataKey="Cumulative" position="top" style={{ fontSize: 10, fill: "#8B5CF6" }} formatter={(v: number) => `∑${v}`} />
               </Bar>
               <Line
                 yAxisId="right"
                 type="monotone"
                 dataKey="Avg TAT"
-                stroke="#F59E0B"
+                stroke="#E57373"
                 strokeWidth={2}
                 dot={{ r: 4 }}
               />

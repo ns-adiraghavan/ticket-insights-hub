@@ -17,7 +17,6 @@ export default function App() {
   const tabs: { key: TabKey; label: string }[] = [
     { key: "wow", label: "WoW Dashboard" },
     { key: "summary", label: "Monthly Summary" },
-    { key: "bifurcation", label: "TAT Bifurcation" },
     { key: "eod", label: "Day View" },
   ];
 
@@ -109,7 +108,6 @@ export default function App() {
       <main style={{ padding: 24 }}>
         {tab === "wow" && <WowTab data={wowData} />}
         {tab === "summary" && <SummaryTab data={summaryData} />}
-        {tab === "bifurcation" && <BifurcationTab data={bifurcationData} />}
         {tab === "eod" && <EodTab data={eodData} />}
       </main>
     </div>
