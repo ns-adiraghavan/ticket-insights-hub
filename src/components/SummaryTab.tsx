@@ -48,6 +48,13 @@ export default function SummaryTab({ data }: { data: any }) {
   const bifData: any = bifurcationData;
   const wow: any = wowData;
 
+  const e2eTickets = (data.listing_type || [])
+    .filter((r: any) => String(r.listing_type_group).startsWith("E2E"))
+    .reduce((s: number, r: any) => s + (r.tickets || 0), 0);
+  const adhocTickets = (data.listing_type || [])
+    .filter((r: any) => String(r.listing_type_group) === "Ad-hoc")
+    .reduce((s: number, r: any) => s + (r.tickets || 0), 0);
+
   const bifRows =
     selectedCat === "All Categories"
       ? bifData.overall
@@ -67,7 +74,8 @@ export default function SummaryTab({ data }: { data: any }) {
   const kpis = [
     { label: "Total Tickets", value: fmtNum(b.total_tickets) },
     { label: "Ad-hoc SKUs", value: fmtNum(b.total_skus) },
-    { label: "E2E vs Ad-hoc", value: b.e2e_vs_adhoc },
+    { label: "E2E Tickets", value: fmtNum(e2eTickets) },
+    { label: "Ad-hoc Tickets", value: fmtNum(adhocTickets) },
     { label: "Avg TAT", value: `${b.avg_tat} days` },
     { label: "Closure Rate", value: `${b.closure_rate}%` },
     { label: "Peak Week", value: `W${b.peak_week} (${b.peak_week_tickets} tickets)` },
