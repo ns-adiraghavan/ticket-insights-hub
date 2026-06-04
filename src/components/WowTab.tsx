@@ -266,12 +266,13 @@ export default function WowTab({ data }: { data: any }) {
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {/* SECTION 1 — KPI STRIP */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}>
-        <KpiCard label="Total Tickets" value={fmtNum(k.total_tickets)} wowPct={wow("tickets")} />
-        <KpiCard label="Ad-hoc SKUs" value={fmtNum(k.adhoc_skus)} wowPct={wow("adhoc_skus")} />
-        <KpiCard label="E2E Options" value={fmtNum(k.e2e_options)} wowPct={wow("e2e_options")} />
-        <KpiCard label="Avg TAT (weighted)" value={`${k.avg_tat} days`} wowPct={wow("avg_tat")} />
-        <KpiCard label="E2E Tickets" value={fmtNum(k.e2e_tickets)} wowPct={wow("e2e_tickets")} />
-        <KpiCard label="Ad-hoc Tickets" value={fmtNum(k.adhoc_tickets)} wowPct={wow("adhoc_tickets")} />
+        <KpiCard label="Total Tickets" value={fmtNum(k.total_tickets)} wowPct={vsAvg("tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="Ad-hoc SKUs" value={fmtNum(k.adhoc_skus)} wowPct={vsAvg("adhoc_skus")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="E2E Options" value={fmtNum(k.e2e_options)} wowPct={vsAvg("e2e_options")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="Avg TAT (weighted)" value={`${k.avg_tat} days`} wowPct={vsAvg("avg_tat")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" invertColor />
+        <KpiCard label="E2E Tickets" value={fmtNum(k.e2e_tickets)} wowPct={vsAvg("e2e_tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="Ad-hoc Tickets" value={fmtNum(k.adhoc_tickets)} wowPct={vsAvg("adhoc_tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+
       </div>
 
       {/* SECTION 2 — DATE RANGE PICKER */}
