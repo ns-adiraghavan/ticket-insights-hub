@@ -318,7 +318,7 @@ export default function SummaryTab({ data }: { data: any }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+          gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
           gap: 12,
         }}
         className="ucw-kpi-grid"
