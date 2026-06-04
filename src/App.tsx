@@ -71,7 +71,7 @@ export default function App() {
             May 2026
           </span>
           <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)" }}>
-            Netscribes × TataCliq
+            {"\n"}
           </div>
         </div>
       </header>
