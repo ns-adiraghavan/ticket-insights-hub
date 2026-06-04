@@ -310,10 +310,19 @@ export default function SummaryTab({ data }: { data: any }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
           gap: 12,
         }}
+        className="ucw-kpi-grid"
       >
+        <style>{`
+          @media (max-width: 900px) {
+            .ucw-kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+          }
+          @media (max-width: 520px) {
+            .ucw-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+          }
+        `}</style>
         {kpis.map((k) => (
           <KpiCard key={k.label} label={k.label} value={k.value} />
         ))}
