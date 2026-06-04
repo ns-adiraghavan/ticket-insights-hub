@@ -71,8 +71,6 @@ export default function SummaryTab({ data }: { data: any }) {
     { label: "Avg TAT", value: `${b.avg_tat} days` },
     { label: "Closure Rate", value: `${b.closure_rate}%` },
     { label: "Peak Week", value: `W${b.peak_week} (${b.peak_week_tickets} tickets)` },
-    { label: "Top Category", value: b.top_category },
-    { label: "Top Assignee", value: b.top_assignee },
   ];
 
   // Dimension table configs
@@ -161,9 +159,34 @@ export default function SummaryTab({ data }: { data: any }) {
     </tr>
   );
 
+  const brandMaxTickets = Math.max(
+    1,
+    ...((data.top_brands || []) as any[]).map((r) => r.tickets || 0),
+  );
   const brandCols: Column<any>[] = [
     { header: "Brand", render: (r) => r.brand_name },
-    { header: "Tickets", align: "right", render: (r) => fmtNum(r.tickets) },
+    {
+      header: "Tickets",
+      align: "right",
+      render: (r) => {
+        const pct = (r.tickets / brandMaxTickets) * 100;
+        return (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 4, minWidth: 90 }}>
+            <div style={{ textAlign: "right" }}>{fmtNum(r.tickets)}</div>
+            <div style={{ width: "100%", height: 4, background: "transparent", borderRadius: 2, overflow: "hidden" }}>
+              <div
+                style={{
+                  width: `${pct}%`,
+                  height: "100%",
+                  background: "rgba(24, 95, 165, 0.4)",
+                  borderRadius: 2,
+                }}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
     { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
     { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
     {
@@ -383,7 +406,15 @@ export default function SummaryTab({ data }: { data: any }) {
               />
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar yAxisId="left" dataKey="tickets" name="Tickets" fill="#185FA5" radius={[4, 4, 0, 0]} />
+              <Area
+                yAxisId="left"
+                type="monotone"
+                dataKey="tickets"
+                name="Tickets"
+                stroke="#185FA5"
+                fill="#185FA5"
+                fillOpacity={0.7}
+              />
               <Line
                 yAxisId="right"
                 type="monotone"
