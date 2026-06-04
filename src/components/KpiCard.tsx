@@ -3,13 +3,17 @@ interface Props {
   value: string | number;
   subValue?: string;
   wowPct?: number | null;
+  badgeLabel?: string;
+  badgeTooltip?: string;
+  invertColor?: boolean;
 }
 
-export default function KpiCard({ label, value, subValue, wowPct }: Props) {
+export default function KpiCard({ label, value, subValue, wowPct, badgeLabel, badgeTooltip, invertColor }: Props) {
   const hasWow = wowPct !== undefined && wowPct !== null && isFinite(wowPct);
   const positive = hasWow && (wowPct as number) >= 0;
-  const color = positive ? "#16A34A" : "#DC2626";
-  const bg = positive ? "#DCFCE7" : "#FEE2E2";
+  const good = invertColor ? !positive : positive;
+  const color = good ? "#16A34A" : "#DC2626";
+  const bg = good ? "#DCFCE7" : "#FEE2E2";
   const arrow = positive ? "▲" : "▼";
 
   return (
@@ -71,13 +75,14 @@ export default function KpiCard({ label, value, subValue, wowPct }: Props) {
             padding: "2px 8px",
             borderRadius: 999,
           }}
-          title="Week-over-week change (W22 vs W21)"
+          title={badgeTooltip ?? "Week-over-week change (W22 vs W21)"}
         >
           <span>{arrow}</span>
           <span>
             {positive ? "+" : ""}
             {(wowPct as number).toFixed(1)}%
           </span>
+          {badgeLabel && <span style={{ fontWeight: 500, opacity: 0.8 }}>{badgeLabel}</span>}
         </div>
       )}
     </div>
