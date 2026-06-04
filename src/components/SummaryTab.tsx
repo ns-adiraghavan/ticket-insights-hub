@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   ComposedChart,
-  Bar,
+  Area,
   Line,
   XAxis,
   YAxis,
