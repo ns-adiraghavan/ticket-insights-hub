@@ -54,7 +54,7 @@ export default function App() {
             style={{ maxHeight: 28 }}
           />
           <h1 style={{ fontSize: 15, fontWeight: 500, margin: 0, color: "#fff" }}>
-            UCW Ticket Quality &amp; TAT Dashboard
+            TataCliq Dashboard
           </h1>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -71,7 +71,7 @@ export default function App() {
             May 2026
           </span>
           <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)" }}>
-            Netscribes × TataCliq
+            {"\n"}
           </div>
         </div>
       </header>
