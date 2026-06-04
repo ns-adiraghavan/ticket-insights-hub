@@ -1,10 +1,11 @@
 interface Props {
   label: string;
   value: string | number;
+  subValue?: string;
   wowPct?: number | null;
 }
 
-export default function KpiCard({ label, value, wowPct }: Props) {
+export default function KpiCard({ label, value, subValue, wowPct }: Props) {
   const hasWow = wowPct !== undefined && wowPct !== null && isFinite(wowPct);
   const positive = hasWow && (wowPct as number) >= 0;
   const color = positive ? "#16A34A" : "#DC2626";
@@ -45,6 +46,17 @@ export default function KpiCard({ label, value, wowPct }: Props) {
       >
         {value}
       </div>
+      {subValue && (
+        <div
+          style={{
+            fontSize: 13,
+            color: "#6b7280",
+            marginTop: 2,
+          }}
+        >
+          {subValue}
+        </div>
+      )}
       {hasWow && (
         <div
           style={{

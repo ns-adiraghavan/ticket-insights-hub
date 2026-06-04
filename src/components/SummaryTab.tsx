@@ -78,7 +78,7 @@ export default function SummaryTab({ data }: { data: any }) {
     { label: "Ad-hoc Tickets", value: fmtNum(adhocTickets) },
     { label: "Avg TAT", value: `${b.avg_tat} days` },
     { label: "Closure Rate", value: `${b.closure_rate}%` },
-    { label: "Peak Week", value: `W${b.peak_week} (${b.peak_week_tickets} tickets)` },
+    { label: "Peak Week", value: `W${b.peak_week}`, subValue: `${b.peak_week_tickets} tickets` },
   ];
 
   // Dimension table configs
@@ -317,22 +317,14 @@ export default function SummaryTab({ data }: { data: any }) {
       {/* SECTION 1 — KPI STRIP */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+          display: "flex",
+          flexWrap: "nowrap",
           gap: 12,
         }}
         className="ucw-kpi-grid"
       >
-        <style>{`
-          @media (max-width: 900px) {
-            .ucw-kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-          }
-          @media (max-width: 520px) {
-            .ucw-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-          }
-        `}</style>
-        {kpis.map((k) => (
-          <KpiCard key={k.label} label={k.label} value={k.value} />
+        {kpis.map((k: any) => (
+          <KpiCard key={k.label} label={k.label} value={k.value} subValue={k.subValue} />
         ))}
       </div>
 
