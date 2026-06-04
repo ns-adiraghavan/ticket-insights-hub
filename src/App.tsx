@@ -1,16 +1,14 @@
 import { useState } from "react";
 import WowTab from "./components/WowTab";
 import SummaryTab from "./components/SummaryTab";
-import BifurcationTab from "./components/BifurcationTab";
 import EodTab from "./components/EodTab";
 import Login from "./components/Login";
 
 import wowData from "./data/wow";
 import summaryData from "./data/summary";
-import bifurcationData from "./data/bifurcation";
 import eodData from "./data/eod";
 
-type TabKey = "wow" | "summary" | "bifurcation" | "eod";
+type TabKey = "wow" | "summary" | "eod";
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
