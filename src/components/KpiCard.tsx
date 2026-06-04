@@ -3,13 +3,17 @@ interface Props {
   value: string | number;
   subValue?: string;
   wowPct?: number | null;
+  badgeLabel?: string;
+  badgeTooltip?: string;
+  invertColor?: boolean;
 }
 
-export default function KpiCard({ label, value, subValue, wowPct }: Props) {
+export default function KpiCard({ label, value, subValue, wowPct, badgeLabel, badgeTooltip, invertColor }: Props) {
   const hasWow = wowPct !== undefined && wowPct !== null && isFinite(wowPct);
   const positive = hasWow && (wowPct as number) >= 0;
-  const color = positive ? "#16A34A" : "#DC2626";
-  const bg = positive ? "#DCFCE7" : "#FEE2E2";
+  const good = invertColor ? !positive : positive;
+  const color = good ? "#16A34A" : "#DC2626";
+  const bg = good ? "#DCFCE7" : "#FEE2E2";
   const arrow = positive ? "▲" : "▼";
 
   return (
