@@ -4,10 +4,11 @@ import App from "../App";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "UCW TAT Dashboard" },
+      { title: "TataCliq Dashboard" },
       { name: "description", content: "UCW Ticket Quality & TAT Dashboard — Netscribes × TataCliq" },
     ],
     links: [
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
