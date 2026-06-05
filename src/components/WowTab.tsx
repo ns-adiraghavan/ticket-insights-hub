@@ -509,6 +509,41 @@ export default function WowTab({ data }: { data: any }) {
         </div>
         <DataTable columns={dimCols} rows={activeDim.rows} footer={dimFooter} />
       </div>
+
+      {/* SECTION 7 — TOP BRANDS */}
+      <div>
+        <SectionHeader>
+          Top Brands by Ticket Volume
+          <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 500, marginLeft: 8 }}>(full month)</span>
+        </SectionHeader>
+        {(() => {
+          const brands: any[] = summary.top_brands || [];
+          const brandMaxTickets = Math.max(1, ...brands.map((r) => r.tickets || 0));
+          const brandCols: Column<any>[] = [
+            { header: "Brand", render: (r) => r.brand_name },
+            {
+              header: "Tickets",
+              align: "right",
+              render: (r) => {
+                const pct = (r.tickets / brandMaxTickets) * 100;
+                return (
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 4, minWidth: 90 }}>
+                    <div style={{ textAlign: "right" }}>{fmtNum(r.tickets)}</div>
+                    <div style={{ width: "100%", height: 4, background: "transparent", borderRadius: 2, overflow: "hidden" }}>
+                      <div style={{ width: `${pct}%`, height: "100%", background: "rgba(24, 95, 165, 0.4)", borderRadius: 2 }} />
+                    </div>
+                  </div>
+                );
+              },
+            },
+            { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
+            { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
+            { header: "Avg TAT", align: "right", render: (r) => r.avg_tat.toFixed(2) },
+            { header: "Closure %", align: "right", render: (r) => `${r.closure_rate.toFixed(2)}%` },
+          ];
+          return <DataTable columns={brandCols} rows={brands} />;
+        })()}
+      </div>
     </div>
   );
 }
