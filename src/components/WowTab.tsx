@@ -129,6 +129,15 @@ export default function WowTab({ data }: { data: any }) {
     return ((a - avg) / avg) * 100;
   };
 
+  // Filtered KPI totals (reactive to date range)
+  const filteredTotalTickets = filteredWeeks.reduce((s, w) => s + (w.tickets || 0), 0);
+  const filteredAdhocSkus = filteredWeeks.reduce((s, w) => s + (w.adhoc_skus || 0), 0);
+  const filteredE2eOptions = filteredWeeks.reduce((s, w) => s + (w.e2e_options || 0), 0);
+  const filteredE2eTickets = filteredWeeks.reduce((s, w) => s + (w.e2e_tickets || 0), 0);
+  const filteredAdhocTickets = filteredWeeks.reduce((s, w) => s + (w.adhoc_tickets || 0), 0);
+  const filteredTatNum = filteredWeeks.reduce((s, w) => s + (w.avg_tat || 0) * (w.tickets || 0), 0);
+  const filteredAvgTat = filteredTotalTickets > 0 ? filteredTatNum / filteredTotalTickets : 0;
+
   const chartData = filteredWeeks.map((w) => ({
     name: `W${w.week_number} ${fmtDate(w.week_start)}–${fmtDate(w.week_end).replace(/^\d{2}-/, "")}`,
     Tickets: w.tickets,
