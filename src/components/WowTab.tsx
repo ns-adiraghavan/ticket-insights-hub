@@ -129,6 +129,15 @@ export default function WowTab({ data }: { data: any }) {
     return ((a - avg) / avg) * 100;
   };
 
+  // Filtered KPI totals (reactive to date range)
+  const filteredTotalTickets = filteredWeeks.reduce((s, w) => s + (w.tickets || 0), 0);
+  const filteredAdhocSkus = filteredWeeks.reduce((s, w) => s + (w.adhoc_skus || 0), 0);
+  const filteredE2eOptions = filteredWeeks.reduce((s, w) => s + (w.e2e_options || 0), 0);
+  const filteredE2eTickets = filteredWeeks.reduce((s, w) => s + (w.e2e_tickets || 0), 0);
+  const filteredAdhocTickets = filteredWeeks.reduce((s, w) => s + (w.adhoc_tickets || 0), 0);
+  const filteredTatNum = filteredWeeks.reduce((s, w) => s + (w.avg_tat || 0) * (w.tickets || 0), 0);
+  const filteredAvgTat = filteredTotalTickets > 0 ? filteredTatNum / filteredTotalTickets : 0;
+
   const chartData = filteredWeeks.map((w) => ({
     name: `W${w.week_number} ${fmtDate(w.week_start)}–${fmtDate(w.week_end).replace(/^\d{2}-/, "")}`,
     Tickets: w.tickets,
@@ -266,12 +275,12 @@ export default function WowTab({ data }: { data: any }) {
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {/* SECTION 1 — KPI STRIP */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}>
-        <KpiCard label="Total Tickets" value={fmtNum(k.total_tickets)} wowPct={vsAvg("tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
-        <KpiCard label="Ad-hoc SKUs" value={fmtNum(k.adhoc_skus)} wowPct={vsAvg("adhoc_skus")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
-        <KpiCard label="E2E Options" value={fmtNum(k.e2e_options)} wowPct={vsAvg("e2e_options")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
-        <KpiCard label="Avg TAT (weighted)" value={`${k.avg_tat} days`} wowPct={vsAvg("avg_tat")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" invertColor />
-        <KpiCard label="E2E Tickets" value={fmtNum(k.e2e_tickets)} wowPct={vsAvg("e2e_tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
-        <KpiCard label="Ad-hoc Tickets" value={fmtNum(k.adhoc_tickets)} wowPct={vsAvg("adhoc_tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="Total Tickets" value={fmtNum(filteredTotalTickets)} wowPct={vsAvg("tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="Ad-hoc SKUs" value={fmtNum(filteredAdhocSkus)} wowPct={vsAvg("adhoc_skus")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="E2E Options" value={fmtNum(filteredE2eOptions)} wowPct={vsAvg("e2e_options")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="Avg TAT (weighted)" value={`${filteredAvgTat.toFixed(2)} days`} wowPct={vsAvg("avg_tat")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" invertColor />
+        <KpiCard label="E2E Tickets" value={fmtNum(filteredE2eTickets)} wowPct={vsAvg("e2e_tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
+        <KpiCard label="Ad-hoc Tickets" value={fmtNum(filteredAdhocTickets)} wowPct={vsAvg("adhoc_tickets")} badgeLabel="vs month avg" badgeTooltip="Last week vs monthly average" />
 
       </div>
 
@@ -499,6 +508,41 @@ export default function WowTab({ data }: { data: any }) {
           })}
         </div>
         <DataTable columns={dimCols} rows={activeDim.rows} footer={dimFooter} />
+      </div>
+
+      {/* SECTION 7 — TOP BRANDS */}
+      <div>
+        <SectionHeader>
+          Top Brands by Ticket Volume
+          <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 500, marginLeft: 8 }}>(full month)</span>
+        </SectionHeader>
+        {(() => {
+          const brands: any[] = summary.top_brands || [];
+          const brandMaxTickets = Math.max(1, ...brands.map((r) => r.tickets || 0));
+          const brandCols: Column<any>[] = [
+            { header: "Brand", render: (r) => r.brand_name },
+            {
+              header: "Tickets",
+              align: "right",
+              render: (r) => {
+                const pct = (r.tickets / brandMaxTickets) * 100;
+                return (
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 4, minWidth: 90 }}>
+                    <div style={{ textAlign: "right" }}>{fmtNum(r.tickets)}</div>
+                    <div style={{ width: "100%", height: 4, background: "transparent", borderRadius: 2, overflow: "hidden" }}>
+                      <div style={{ width: `${pct}%`, height: "100%", background: "rgba(24, 95, 165, 0.4)", borderRadius: 2 }} />
+                    </div>
+                  </div>
+                );
+              },
+            },
+            { header: "Ad-hoc SKUs", align: "right", render: (r) => fmtNum(r.adhoc_skus) },
+            { header: "E2E Options", align: "right", render: (r) => fmtNum(r.e2e_options) },
+            { header: "Avg TAT", align: "right", render: (r) => r.avg_tat.toFixed(2) },
+            { header: "Closure %", align: "right", render: (r) => `${r.closure_rate.toFixed(2)}%` },
+          ];
+          return <DataTable columns={brandCols} rows={brands} />;
+        })()}
       </div>
     </div>
   );
